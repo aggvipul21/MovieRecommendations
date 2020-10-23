@@ -1,11 +1,12 @@
 import numpy as np
 import pandas as pd
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, jsonify
 import sqlalchemy
 import pickle
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
+from fuzzywuzzy import fuzz
 
 #Initialize app
 app = Flask(__name__)
@@ -24,7 +25,7 @@ def my_form_post():
     if request.method=="POST":
         processed_text = request.form['title']
         print(processed_text)
-        loaded_sim=pickle.load(open("genrepredictor-similaritymatrix.pckl","rb"))
+        loaded_sim=pickle.load(open("content-model.pckl","rb"))
         loaded_df=pickle.load(open("movie_df.pckl","rb"))
         indices = pd.Series(loaded_df.index, index=loaded_df['title'])
 
@@ -33,13 +34,19 @@ def my_form_post():
             idx = indices[title]
             sim_scores = list(enumerate(loaded_sim[idx]))
             sim_scores = sorted(sim_scores, key=lambda x: x[1], reverse=True)
-            sim_scores = sim_scores[1:21]
+            sim_scores = sim_scores[1:11]
             movie_indices = [i[0] for i in sim_scores]
-            return list(loaded_df.iloc[movie_indices]["title"])
-             
-        processed_text=str(genre_recommendations(processed_text))
+            return loaded_df.iloc[movie_indices]
+
+        processed_text=genre_recommendations(processed_text)
+        movie_list=[]
+        for i, row in processed_text.iterrows():
+            movie_list.append(row["title"])
+
+        print(movie_list)
        
-    return processed_text
+    # return jsonify(processed_text)
+    return render_template('home.html', prediction_string=movie_list)
 
 @app.route("/about")
 def about():

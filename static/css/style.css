@@ -1,0 +1,88 @@
+* {
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+  
+html,
+body {
+    height: 100%;
+}
+
+.navbar {
+    padding: 0;
+    margin: 0;
+    background-color: black;
+}
+  
+.navbar-brand {
+    color: white;
+    font-weight: bold;
+    margin-left: 20px;
+}
+
+.nav-link {
+    font-weight: bold;
+    font-size: 20px;
+    margin-right: 20px;
+}
+
+.title {
+    position: relative;
+    height: 180px;
+    padding: 10px;
+    margin: 0;
+    background: black;
+    background-image: url("../images/movies.jpg");I
+    background-attachment: fixed;
+    background-position: center;
+}
+
+.title h1 {
+    margin-top: 40px;
+    margin-bottom: 40px;
+    font-size: 80px;
+    font-weight: bolder;
+    animation: title 1s forwards linear;
+    color: white;
+}
+
+.container {
+    padding: 20px;
+}
+
+.wrapper {
+    position: relative;
+    min-height: 100%;
+    padding-bottom: 130px;
+    overflow: auto;
+    background: rgb(240, 239, 239);
+}
+  
+ol {
+    font-size: 25px;
+    color: white;
+    font-weight: bold;
+    background-color: rgb(99, 97, 97);
+}
+
+ol li{
+    list-style-type: none;
+  }
+
+.row {
+    padding: 20px;
+}
+
+.row h3 {
+    font-weight: bold;
+}
+
+@keyframes title {
+    from {
+      opacity: 0;
+    }
+    to {
+      font-size: 70px;
+      opacity: 1;
+    }
+}

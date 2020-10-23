@@ -6,7 +6,7 @@ import pickle
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import TfidfVectorizer
-from fuzzywuzzy import fuzz
+#from fuzzywuzzy import fuzz
 
 #Initialize app
 app = Flask(__name__)
@@ -25,7 +25,7 @@ def my_form_post():
     if request.method=="POST":
         processed_text = request.form['title']
         print(processed_text)
-        loaded_sim=pickle.load(open("content-model.pckl","rb"))
+        loaded_sim=pickle.load(open("genrepredictor-similaritymatrix.pckl","rb"))
         loaded_df=pickle.load(open("movie_df.pckl","rb"))
         indices = pd.Series(loaded_df.index, index=loaded_df['title'])
 

@@ -1,3 +1,4 @@
 data/
 genrepredictor-similaritymatrix.pckl
 movies_df.pckl
+genre_rating_predictor-similaritymatrix.pckl

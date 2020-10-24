@@ -48,11 +48,28 @@
                         <h4>{{searched_string}}</h4>                        
                     </div>                    
                     <br>
-                    <ol>  
+                    <table class="table table-dark">
+                        <!-- <thead>
+                            <tr>
+                              <th scope="col">{{header_title}}</th>
+                              <th scope="col">{{header_genre}}</th>
+                            </tr>
+                        </thead> -->
+                        <tbody>
+                            {% for row in prediction_string %}
+                            <TR>
+                            <TD>{{row[0]}}</TD>
+                            <TD>{{row[1]}}</TD>
+                            
+                            </TR>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <!-- <ol>  
                     {% for row in prediction_string %}
                         <li>{{'"'+row[0]+'" | '+ row[1]}}</li>
                     {% endfor %}
-                    </ol>
+                    </ol> -->
                 </div>
             </div>
         </div>

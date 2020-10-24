@@ -28,7 +28,7 @@ def login():
         #print(movies_recommender)
         #prediction=movies_recommender.iloc[:,[5,6]].values.tolist()
         print(prediction)
-        return render_template('user-recommender.html', prediction_string=prediction) 
+        return render_template('user-recommender.html', prediction_string=prediction,header_title="Movie Title",header_genre="Genre") 
 
     else:
         return render_template("login.html")
@@ -42,7 +42,7 @@ def my_movie_recommender():
         loaded_sim=pickle.load(open("genrepredictor-similaritymatrix.pckl","rb"))
         loaded_df=pickle.load(open("movie_df.pckl","rb"))
         indices = pd.Series(loaded_df.index, index=loaded_df['title'])
-
+        
         # Function that get movie recommendations based on the cosine similarity score of movie genres
         def genre_recommendations(title):
             idx = indices[title]
@@ -52,8 +52,13 @@ def my_movie_recommender():
             movie_indices = [i[0] for i in sim_scores]
             return loaded_df.iloc[movie_indices[1:11],[1,2,3]].values.tolist()
 
-        result_text=genre_recommendations(processed_text)
-        
+        if processed_text in indices.index:
+            result_text=genre_recommendations(processed_text)
+            processed_text='Because you liked "'+processed_text+'", you may also like the following movies:'
+        else:
+            result_text=""
+            processed_text='"'+processed_text+'" does not exist in our database, please try a different movie'
+
         if (request.args):
             args=request.args
             #print(args["user-id"])
@@ -71,8 +76,8 @@ def my_movie_recommender():
             #prediction=movies_recommender.iloc[:,[5,6]].values.tolist()
             print(prediction)
 
-    processed_text='Because you searched for "'+processed_text+'", you may also like the following movies:'
-    return render_template('user-recommender.html', movie_prediction_string=result_text,prediction_string=prediction,searched_string=processed_text)
+    return render_template('user-recommender.html', movie_prediction_string=result_text,prediction_string=prediction,\
+    searched_string=processed_text,header_title="Movie Title",header_genre="Genre",movie_search_header_title="Movie Title",movie_search_header_genre="Genre")
 
 @app.route("/home")
 def home():    
@@ -87,7 +92,7 @@ def my_form_post():
         loaded_sim=pickle.load(open("genrepredictor-similaritymatrix.pckl","rb"))
         loaded_df=pickle.load(open("movie_df.pckl","rb"))
         indices = pd.Series(loaded_df.index, index=loaded_df['title'])
-
+        
         # Function that get movie recommendations based on the cosine similarity score of movie genres
         def genre_recommendations(title):
             idx = indices[title]
@@ -97,16 +102,14 @@ def my_form_post():
             movie_indices = [i[0] for i in sim_scores]
             return loaded_df.iloc[movie_indices[1:11],[1,2,3]].values.tolist()
 
-        result_text=genre_recommendations(processed_text)
-        # movie_list=[]
-        # for i, row in processed_text.iterrows():
-        #     movie_list.append(row["title"])
-
-        # print(movie_list)
-       
-    # return jsonify(processed_text)
-    processed_text='Because you liked "'+processed_text+'", you may also like the following movies:'
-    return render_template('home.html', prediction_string=result_text,searched_string=processed_text)
+        if processed_text in indices.index:
+            result_text=genre_recommendations(processed_text)
+            processed_text='Because you liked "'+processed_text+'", you may also like the following movies:'
+        else:
+            result_text=""
+            processed_text='"'+processed_text+'" does not exist in our database, please try a different movie'
+    
+    return render_template('home.html', prediction_string=result_text,searched_string=processed_text,header_title="Movie Title",header_genre="Genre")
 
 @app.route("/about")
 def about():

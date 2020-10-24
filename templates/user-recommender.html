@@ -31,13 +31,22 @@
         </div>
         <div class="container">
             <div class="row text-center">
-                <h3>Tell us your favorite movie and we'll give you some great recommendations!</h3>
+                <h3>Based on your movie ratings history, here are some movies you may like:</h3>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <ol>  
+                    {% for row in prediction_string %}
+                        <li>{{'"'+row[0]+'" | '+ row[1]}}</li>
+                    {% endfor %}
+                    </ol>
+                </div>
             </div>
             <div class="row">
                 <div class="col">
                     <form id="form-input" method="POST">
                         <div class="input-group mb-3">
-                            <input name="title" type="text" class="form-control" placeholder="Your favorite movie here" aria-label="Movie" aria-describedby="button-addon2">
+                            <input name="title" type="text" class="form-control" placeholder="Or search for another movie" aria-label="Movie" aria-describedby="button-addon2">
                             <div class="input-group-append">
                                 <button class="btn btn-outline-dark" type="submit" id="button-addon2">Search</button>
                             </div>
@@ -49,7 +58,7 @@
                     </div>                    
                     <br>
                     <ol>  
-                    {% for row in prediction_string %}
+                    {% for row in movie_prediction_string %}
                         <li>{{'"'+row[0]+'" | '+ row[1]}}</li>
                     {% endfor %}
                     </ol>
